@@ -38,7 +38,7 @@ namespace NeonControl
         /// </summary>
         /// <param name="vehicle">The vehicle to get.</param>
         /// <returns>The time neon started..</returns>
-        public static int GetStart(this Vehicle vehicle) => Function.Call<int>(Hash.DECOR_GET_INT, vehicle, "neon_progress");
+        public static int GetStart(this Vehicle vehicle) => Function.Call<int>(Hash.DECOR_GET_INT, vehicle, "neon_start");
         /// <summary>
         /// Sets the start time of the neon effect.
         /// </summary>
