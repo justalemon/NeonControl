@@ -23,8 +23,7 @@ namespace NeonControl.Effects
         #region Functions
         
         /// <inheritdoc/>
-        public override void Initialize() => Decorators.Register("neon_onoff_toggle", DecoratorType.Bool);
-
+        public override void Initialize() => Decorators.Register("neon_blink_toggle", DecoratorType.Bool);
         /// <inheritdoc/>
         public override void Reset(Vehicle vehicle)
         {
@@ -34,17 +33,19 @@ namespace NeonControl.Effects
         {
             HSLColor color = vehicle.GetBaseColor();
             int start = vehicle.GetStart();
-            bool activation = Function.Call<bool>(Hash.DECOR_GET_BOOL, vehicle, "neon_onoff_toggle");
+            bool activation = Function.Call<bool>(Hash.DECOR_GET_BOOL, vehicle, "neon_blink_toggle");
 
             if (start + TimeBetween < Game.GameTime)
             {
                 activation = !activation;
-                Function.Call<bool>(Hash.DECOR_SET_BOOL, vehicle, "neon_onoff_toggle", activation);
+                Function.Call<bool>(Hash.DECOR_SET_BOOL, vehicle, "neon_blink_toggle", activation);
                 vehicle.SetStart(Game.GameTime);
             }
 
             color.Saturation = activation ? 1 : 0;
             color.Lightness = activation ? color.Lightness : 0;
+            
+            GTA.UI.Screen.ShowSubtitle($"{activation} {start}");
 
             return color;
         }
