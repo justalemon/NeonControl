@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GTA;
 using GTA.Native;
 
@@ -9,30 +10,27 @@ namespace NeonControl
     /// </summary>
     public class NeonControl : Script
     {
+        #region Fields
+
+        private static readonly Dictionary<string, DecoratorType> decorators = new Dictionary<string, DecoratorType>()
+        {
+            { "neon_start", DecoratorType.Int },
+            { "neon_base_r", DecoratorType.Int },
+            { "neon_base_g", DecoratorType.Int },
+            { "neon_base_b", DecoratorType.Int },
+        }; 
+
+        #endregion
+        
         #region Constructors
 
         /// <summary>
         /// Creates a new Neon control script.
         /// </summary>
-        public unsafe NeonControl()
+        public NeonControl()
         {
-            IntPtr addr = Game.FindPattern("\x40\x53\x48\x83\xEC\x20\x80\x3D\x00\x00\x00\x00\x00\x8B\xDA\x75\x29", "xxxxxxxx????xxxxx");
-            if (addr == IntPtr.Zero)
-            {
-                throw new DataMisalignedException("Memory pattern was not found.");
-            }
-            
-            byte* decoratorLock = (byte*)(addr + *(int*)(addr + 8) + 13);
-            *decoratorLock = 0;
-            
-            Function.Call(Hash.DECOR_REGISTER, "neon_start", 3);
-
-            Function.Call(Hash.DECOR_REGISTER, "neon_base_r", 3);
-            Function.Call(Hash.DECOR_REGISTER, "neon_base_g", 3);
-            Function.Call(Hash.DECOR_REGISTER, "neon_base_b", 3);
-            
-            *decoratorLock = 1;
-            
+            Decorators.Initialize();
+            Decorators.Register(decorators);
             Tick += OnTick;
         }
         
