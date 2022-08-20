@@ -24,6 +24,8 @@ namespace NeonControl
             
             byte* decoratorLock = (byte*)(addr + *(int*)(addr + 8) + 13);
             *decoratorLock = 0;
+            
+            Function.Call(Hash.DECOR_REGISTER, "neon_start", 3);
 
             Function.Call(Hash.DECOR_REGISTER, "neon_base_r", 3);
             Function.Call(Hash.DECOR_REGISTER, "neon_base_g", 3);

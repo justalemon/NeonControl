@@ -32,5 +32,18 @@ namespace NeonControl
             Function.Call<bool>(Hash.DECOR_SET_INT, vehicle, "neon_base_g", color.G);
             Function.Call<bool>(Hash.DECOR_SET_INT, vehicle, "neon_base_b", color.B);
         }
+        
+        /// <summary>
+        /// Gets time the current neon effect started..
+        /// </summary>
+        /// <param name="vehicle">The vehicle to get.</param>
+        /// <returns>The time neon started..</returns>
+        public static int GetStart(this Vehicle vehicle) => Function.Call<int>(Hash.DECOR_GET_INT, vehicle, "neon_progress");
+        /// <summary>
+        /// Sets the start time of the neon effect.
+        /// </summary>
+        /// <param name="vehicle">The vehicle to set.</param>
+        /// <param name="start">The </param>
+        public static void SetStart(this Vehicle vehicle, int start) => Function.Call<bool>(Hash.DECOR_SET_INT, vehicle, "neon_start", start);
     }
 }
