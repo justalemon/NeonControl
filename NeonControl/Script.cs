@@ -57,7 +57,7 @@ namespace NeonControl
         public NeonControl()
         {
             Decorators.Initialize();
-            Decorators.Register(decorators);
+            
             Tick += OnInit;
         }
         
@@ -67,6 +67,8 @@ namespace NeonControl
 
         private void OnInit(object sender, EventArgs e)
         {
+            Decorators.Register(decorators);
+            
             foreach (Vehicle vehicle in World.GetAllVehicles())
             {
                 if (vehicle.IsKnown())
