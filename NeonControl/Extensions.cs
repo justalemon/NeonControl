@@ -45,5 +45,17 @@ namespace NeonControl
         /// <param name="vehicle">The vehicle to set.</param>
         /// <param name="start">The </param>
         public static void SetStart(this Vehicle vehicle, int start) => Function.Call<bool>(Hash.DECOR_SET_INT, vehicle, "neon_start", start);
+        
+        /// <summary>
+        /// If the vehicle is known by the mod.
+        /// </summary>
+        /// <param name="vehicle">The vehicle to check.</param>
+        /// <returns>True if the vehicle is known by the script, false otherwise.</returns>
+        public static bool IsKnown(this Vehicle vehicle) => Function.Call<bool>(Hash.DECOR_GET_BOOL, vehicle, "neon_controlled");
+        /// <summary>
+        /// Marks a specific vehicle as known.
+        /// </summary>
+        /// <param name="vehicle">The vehicle to mark.</param>
+        public static void MarkKnown(this Vehicle vehicle) => Function.Call<bool>(Hash.DECOR_SET_BOOL, vehicle, $"neon_controlled", true);
     }
 }
