@@ -51,12 +51,12 @@ namespace NeonControl
         /// </summary>
         /// <param name="vehicle">The vehicle to check.</param>
         /// <returns>True if the vehicle is known by the script, false otherwise.</returns>
-        public static bool IsKnown(this Vehicle vehicle) => Function.Call<bool>(Hash.DECOR_GET_BOOL, vehicle, "neon_controlled");
+        public static bool IsKnown(this Vehicle vehicle) => Function.Call<bool>(Hash.DECOR_GET_BOOL, vehicle, "neon_known");
         /// <summary>
         /// Marks a specific vehicle as known.
         /// </summary>
         /// <param name="vehicle">The vehicle to mark.</param>
-        public static void MarkKnown(this Vehicle vehicle) => Function.Call<bool>(Hash.DECOR_SET_BOOL, vehicle, $"neon_controlled", true);
+        public static void MarkKnown(this Vehicle vehicle) => Function.Call<bool>(Hash.DECOR_SET_BOOL, vehicle, $"neon_known", true);
         
         /// <summary>
         /// Gets the index of the currently set effect.

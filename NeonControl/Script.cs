@@ -13,10 +13,10 @@ namespace NeonControl
         #region Fields
 
         private static readonly List<Vehicle> knownVehicles = new List<Vehicle>();
-        private static readonly Dictionary<string, DecoratorType> decorators = new Dictionary<string, DecoratorType>
+        private static readonly Dictionary<string, DecoratorType> decorators = new Dictionary<string, DecoratorType>()
         {
             { "neon_start", DecoratorType.Int },
-            { "neon_controlled", DecoratorType.Bool },
+            { "neon_known", DecoratorType.Bool },
             { "neon_base_r", DecoratorType.Int },
             { "neon_base_g", DecoratorType.Int },
             { "neon_base_b", DecoratorType.Int },
