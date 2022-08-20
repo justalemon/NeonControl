@@ -68,6 +68,11 @@ namespace NeonControl
         private void OnInit(object sender, EventArgs e)
         {
             Decorators.Register(decorators);
+
+            foreach (Effect effect in effects)
+            {
+                effect.Initialize();
+            }
             
             foreach (Vehicle vehicle in World.GetAllVehicles())
             {
