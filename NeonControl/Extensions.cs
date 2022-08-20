@@ -70,5 +70,18 @@ namespace NeonControl
         /// <param name="vehicle">The vehicle to set.</param>
         /// <param name="effect">The effect to set.</param>
         public static void SetEffect(this Vehicle vehicle, int effect) => Function.Call<bool>(Hash.DECOR_SET_INT, vehicle, "neon_effect", (int)effect);
+        
+        /// <summary>
+        /// Checks if the vehicle has neon enabled or not.
+        /// </summary>
+        /// <param name="vehicle">The vehicle to check.</param>
+        /// <returns>true if the neon is enabled, false otherwise.</returns>
+        public static bool IsEnabled(this Vehicle vehicle) => Function.Call<bool>(Hash.DECOR_GET_BOOL, vehicle, "neon_enabled");
+        /// <summary>
+        /// Sets the activation of the neon effect
+        /// </summary>
+        /// <param name="vehicle">The vehicle to check.</param>
+        /// <param name="activation">The activation to set.</param>
+        public static void SetActivation(this Vehicle vehicle, bool activation) => Function.Call<bool>(Hash.DECOR_SET_BOOL, vehicle, $"neon_enabled", activation);
     }
 }
