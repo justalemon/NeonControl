@@ -116,7 +116,7 @@ namespace NeonControl
                     continue;
                 }
                 
-                if ((currentVehicle == vehicle || lastVehicle == vehicle) &&
+                if (currentVehicle == vehicle &&
                     !(pool.AreAnyVisible && inputMethod == InputMethod.GamePad) &&
                     Function.Call<int>(Hash.UPDATE_ONSCREEN_KEYBOARD) != 0)
                 {
