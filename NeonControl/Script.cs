@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using GTA;
+using GTA.Native;
 using NeonControl.Effects;
 
 namespace NeonControl
@@ -13,6 +14,12 @@ namespace NeonControl
     {
         #region Fields
 
+        private readonly List<int> losSantosCustoms = new List<int>()
+        {
+            2044753180,
+            -122296439,
+            1204347848
+        };
         private static readonly List<Vehicle> knownVehicles = new List<Vehicle>();
         private static readonly Dictionary<string, DecoratorType> decorators = new Dictionary<string, DecoratorType>()
         {
@@ -92,6 +99,15 @@ namespace NeonControl
                 if (vehicle.Mods.NeonLightsColor != vehicle.GetLastColor())
                 {
                     vehicle.SetBaseColor(vehicle.Mods.NeonLightsColor);
+                }
+
+                int room = Function.Call<int>(Hash.GET_ROOM_KEY_FROM_ENTITY, vehicle);
+                if (losSantosCustoms.Contains(room))
+                {
+                    Color color = vehicle.GetBaseColor();
+                    vehicle.Mods.NeonLightsColor = color;
+                    vehicle.SetLastColor(color);
+                    continue;
                 }
 
                 int effectIndex = vehicle.GetEffect();
