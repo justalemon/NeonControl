@@ -74,6 +74,7 @@ namespace NeonControl
             {
                 if (!currentVehicle.IsKnown())
                 {
+                    currentVehicle.SetActivation(true);
                     currentVehicle.MarkKnown();
                 }
 
