@@ -57,5 +57,18 @@ namespace NeonControl
         /// </summary>
         /// <param name="vehicle">The vehicle to mark.</param>
         public static void MarkKnown(this Vehicle vehicle) => Function.Call<bool>(Hash.DECOR_SET_BOOL, vehicle, $"neon_controlled", true);
+        
+        /// <summary>
+        /// Gets the index of the currently set effect.
+        /// </summary>
+        /// <param name="vehicle">The vehicle to get.</param>
+        /// <returns>The index of the vehicle effect.</returns>
+        public static int GetEffect(this Vehicle vehicle) => Function.Call<int>(Hash.DECOR_GET_INT, vehicle, "neon_effect");
+        /// <summary>
+        /// Sets the index of a specific vehicle.
+        /// </summary>
+        /// <param name="vehicle">The vehicle to set.</param>
+        /// <param name="effect">The effect to set.</param>
+        public static void SetEffect(this Vehicle vehicle, int effect) => Function.Call<bool>(Hash.DECOR_SET_INT, vehicle, "neon_effect", (int)effect);
     }
 }
