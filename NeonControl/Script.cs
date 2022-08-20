@@ -218,6 +218,31 @@ namespace NeonControl
                     }
                 }
 
+                if (config.ResetOnEngineOff)
+                {
+                    int engineTime = vehicle.GetEngineTime();
+                    
+                    if (vehicle.IsEngineRunning)
+                    {
+                        if (engineTime == -1)
+                        {
+                            vehicle.SetEffect(config.DefaultEffect);
+
+                            if (!vehicle.IsEnabled() && config.ToggleOnWhenEngineIsOn)
+                            {
+                                vehicle.SetActivation(true);
+                            }
+                        }
+                        
+                        vehicle.UpdateEngineTime();
+                    }
+                    else if (!vehicle.IsEngineRunning && Game.GameTime - engineTime > 1500)
+                    {
+                        vehicle.InvalidateEngineTime();
+                        continue;
+                    }
+                }
+                
                 if (!vehicle.IsEnabled())
                 {
                     vehicle.Mods.NeonLightsColor = Color.Black;

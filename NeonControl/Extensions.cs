@@ -107,5 +107,22 @@ namespace NeonControl
         /// <param name="vehicle">The vehicle to check.</param>
         /// <param name="activation">The activation to set.</param>
         public static void SetActivation(this Vehicle vehicle, bool activation) => Function.Call<bool>(Hash.DECOR_SET_BOOL, vehicle, $"neon_enabled", activation);
+        
+        /// <summary>
+        /// Gets the time when the engine was turned on.
+        /// </summary>
+        /// <param name="vehicle">The vehicle to check.</param>
+        /// <returns>The last time the engine was turned on.</returns>
+        public static int GetEngineTime(this Vehicle vehicle) => Function.Call<int>(Hash.DECOR_GET_INT, vehicle, "neon_engine_time");
+        /// <summary>
+        /// Invalidates the last time the engine was on.
+        /// </summary>
+        /// <param name="vehicle">The vehicle to invalidate.</param>
+        public static void InvalidateEngineTime(this Vehicle vehicle) => Function.Call<bool>(Hash.DECOR_SET_INT, vehicle, "neon_engine_time", -1);
+        /// <summary>
+        /// Updates the engine time.
+        /// </summary>
+        /// <param name="vehicle">The vehicle to update.</param>
+        public static void UpdateEngineTime(this Vehicle vehicle) => Function.Call<bool>(Hash.DECOR_SET_INT, vehicle, "neon_engine_time", Game.GameTime);
     }
 }

@@ -50,6 +50,27 @@ namespace NeonControl
         [JsonProperty("control_keyboard_hold")]
         public int ControlKeyboardHold { get; set; } = 150;
         
+        /// <summary>
+        /// The effect that will be used by default when entering a vehicle.
+        /// </summary>
+        [JsonProperty("default_effect")]
+        public int DefaultEffect { get; set; } = 0;
+        /// <summary>
+        /// If the neon mode should be set to default when you turn the neon effects off and then back on.
+        /// </summary>
+        [JsonProperty("reset_on_toggle")]
+        public bool ResetOnToggle { get; set; } = false;
+        /// <summary>
+        /// If the neon mode should be set to default when you turn the engine off.
+        /// </summary>
+        [JsonProperty("reset_on_engine_off")]
+        public bool ResetOnEngineOff { get; set; } = false;
+        /// <summary>
+        /// If the neon effect should be toggled on at the same time the engine is turned on.
+        /// </summary>
+        [JsonProperty("toggle_on_when_engine_is_on")]
+        public bool ToggleOnWhenEngineIsOn { get; set; } = true;
+        
         #endregion
         
         #region Functions
