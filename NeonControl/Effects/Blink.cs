@@ -44,8 +44,6 @@ namespace NeonControl.Effects
 
             color.Saturation = activation ? 1 : 0;
             color.Lightness = activation ? color.Lightness : 0;
-            
-            GTA.UI.Screen.ShowSubtitle($"{activation} {start}");
 
             return color;
         }
