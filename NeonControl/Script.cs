@@ -43,7 +43,9 @@ namespace NeonControl
             new Fade(),
             new Rainbow()
         };
-        private Configuration config = Configuration.Load(); 
+        private Configuration config = Configuration.Load();
+        private int pressedSince = -1;
+        private bool clearOnceLifted = false;
 
         #endregion
         
@@ -81,6 +83,7 @@ namespace NeonControl
             pool.Process();
             
             Vehicle currentVehicle = Game.Player.Character.CurrentVehicle;
+            Vehicle lastVehicle = Game.Player.Character.LastVehicle;
 
             if (currentVehicle != null && !knownVehicles.Contains(currentVehicle))
             {
@@ -92,9 +95,122 @@ namespace NeonControl
 
                 knownVehicles.Add(currentVehicle);
             }
+
+            InputMethod inputMethod = Game.LastInputMethod;
             
             foreach (Vehicle vehicle in knownVehicles)
             {
+                int room = Function.Call<int>(Hash.GET_ROOM_KEY_FROM_ENTITY, vehicle);
+                if (losSantosCustoms.Contains(room))
+                {
+                    Color color = vehicle.GetBaseColor();
+                    vehicle.Mods.NeonLightsColor = color;
+                    vehicle.SetLastColor(color);
+                    continue;
+                }
+                
+                if ((currentVehicle == vehicle || lastVehicle == vehicle) &&
+                    !(pool.AreAnyVisible && inputMethod == InputMethod.GamePad) &&
+                    Function.Call<int>(Hash.UPDATE_ONSCREEN_KEYBOARD) != 0)
+                {
+                    bool changeActivation = false;
+                    bool changeEffect = false;
+
+                    if (inputMethod == InputMethod.GamePad)
+                    {
+                        Game.DisableControlThisFrame(Control.Duck);
+                        Game.DisableControlThisFrame(Control.VehicleDuck);
+                        Game.DisableControlThisFrame(Control.VehicleFlyDuck);
+                        Game.EnableControlThisFrame(config.ControlGamepad1);
+                        Game.EnableControlThisFrame(config.ControlGamepad2);
+                        Function.Call(Hash.SET_INPUT_EXCLUSIVE, 0, (int)config.ControlGamepad1);
+                        Function.Call(Hash.SET_INPUT_EXCLUSIVE, 0, (int)config.ControlGamepad2);
+
+                        if (pressedSince == -1 && Game.IsControlPressed(config.ControlGamepad1) &&
+                            Game.IsControlJustPressed(config.ControlGamepad2))
+                        {
+                            pressedSince = Game.GameTime;
+                        }
+                        else if (pressedSince != -1)
+                        {
+                            if (!Game.IsControlPressed(config.ControlGamepad1) &&
+                                !Game.IsControlPressed(config.ControlGamepad2))
+                            {
+                                changeActivation = true;
+                                pressedSince = -1;
+                            }
+                            else if (Game.GameTime - pressedSince > config.ControlGamepadHold)
+                            {
+                                changeEffect = true;
+                                pressedSince = -1;
+                            }
+                        }
+                    }
+                    else if (inputMethod == InputMethod.MouseAndKeyboard)
+                    {
+                        bool single = Game.IsKeyPressed(config.ControlKeyboardSingle);
+                        bool mode = Game.IsKeyPressed(config.ControlKeyboardMode);
+                        bool toggle = Game.IsKeyPressed(config.ControlKeyboardToggle);
+
+                        if (clearOnceLifted && !single && !mode && !toggle)
+                        {
+                            clearOnceLifted = false;
+                            pressedSince = -1;
+                        }
+
+                        if (!clearOnceLifted)
+                        {
+                            if (pressedSince == -1)
+                            {
+                                if (single)
+                                {
+                                    pressedSince = Game.GameTime;
+                                }
+                                else if (mode)
+                                {
+                                    changeEffect = true;
+                                    pressedSince = Game.GameTime;
+                                    clearOnceLifted = true;
+                                }
+                                else if (toggle)
+                                {
+                                    changeActivation = true;
+                                    pressedSince = Game.GameTime;
+                                    clearOnceLifted = true;
+                                }
+                            }
+                            else
+                            {
+                                if (!single)
+                                {
+                                    changeActivation = true;
+                                    clearOnceLifted = true;
+                                }
+                                else if (Game.GameTime - pressedSince > config.ControlKeyboardHold)
+                                {
+                                    changeEffect = true;
+                                    clearOnceLifted = true;
+                                }
+                            }
+                        }
+                    }
+
+                    if (changeActivation)
+                    {
+                        bool newActivation = !vehicle.IsEnabled();
+                        vehicle.SetActivation(newActivation);
+                        GTA.UI.Screen.ShowSubtitle($"Neon has been set {(newActivation ? "~g~On" : "~r~Off")}~s~!");
+                    }
+                    else if (changeEffect && vehicle.IsEnabled())
+                    {
+                        int currentIndex = vehicle.GetEffect();
+                        int newIndex = currentIndex >= effects.Count - 1 ? 0 : currentIndex + 1;
+                        Effect newEffect = effects[newIndex];
+                        vehicle.SetEffect(newIndex);
+                        GTA.UI.Screen.ShowSubtitle($"Neon mode was set to ~q~{newEffect.GetType().Name} ({newIndex})~s~!");
+                    }
+                }
+
                 if (!vehicle.IsEnabled())
                 {
                     vehicle.Mods.NeonLightsColor = Color.Black;
@@ -104,15 +220,6 @@ namespace NeonControl
                 if (vehicle.Mods.NeonLightsColor != vehicle.GetLastColor())
                 {
                     vehicle.SetBaseColor(vehicle.Mods.NeonLightsColor);
-                }
-
-                int room = Function.Call<int>(Hash.GET_ROOM_KEY_FROM_ENTITY, vehicle);
-                if (losSantosCustoms.Contains(room))
-                {
-                    Color color = vehicle.GetBaseColor();
-                    vehicle.Mods.NeonLightsColor = color;
-                    vehicle.SetLastColor(color);
-                    continue;
                 }
 
                 int effectIndex = vehicle.GetEffect();
