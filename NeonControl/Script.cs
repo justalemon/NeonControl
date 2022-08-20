@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using GTA;
 using GTA.Native;
+using LemonUI;
 using NeonControl.Effects;
 
 namespace NeonControl
@@ -14,6 +15,7 @@ namespace NeonControl
     {
         #region Fields
 
+        private readonly ObjectPool pool = new ObjectPool();
         private readonly List<int> losSantosCustoms = new List<int>()
         {
             2044753180,
@@ -75,6 +77,8 @@ namespace NeonControl
         }
         private void OnTick(object sender, EventArgs e)
         {
+            pool.Process();
+            
             Vehicle currentVehicle = Game.Player.Character.CurrentVehicle;
 
             if (currentVehicle != null && !knownVehicles.Contains(currentVehicle))
