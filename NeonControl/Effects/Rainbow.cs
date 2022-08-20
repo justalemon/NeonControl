@@ -9,13 +9,13 @@ namespace NeonControl.Effects
     /// </summary>
     public class Rainbow : Effect
     {
-        #region MyRegion
+        #region Properties
 
         /// <summary>
         /// The duration of the rainbow effect.
         /// </summary>
         [JsonProperty("duration")]
-        public int Duration { get; set; }
+        public int Duration { get; set; } = 10000;
 
         #endregion
         
