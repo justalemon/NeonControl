@@ -22,7 +22,10 @@ namespace NeonControl
             { "neon_base_r", DecoratorType.Int },
             { "neon_base_g", DecoratorType.Int },
             { "neon_base_b", DecoratorType.Int },
-        }; 
+            { "neon_last_r", DecoratorType.Int },
+            { "neon_last_g", DecoratorType.Int },
+            { "neon_last_b", DecoratorType.Int }
+        };
 
         #endregion
         

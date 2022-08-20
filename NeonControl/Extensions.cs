@@ -34,6 +34,30 @@ namespace NeonControl
         }
         
         /// <summary>
+        /// Gets the last color used for the Neon effect.
+        /// </summary>
+        /// <param name="vehicle">The vehicle to set.</param>
+        /// <returns>The last color used.</returns>
+        public static Color GetLastColor(this Vehicle vehicle)
+        {
+            int r = Function.Call<int>(Hash.DECOR_GET_INT, vehicle, "neon_last_r");
+            int g = Function.Call<int>(Hash.DECOR_GET_INT, vehicle, "neon_last_g");
+            int b = Function.Call<int>(Hash.DECOR_GET_INT, vehicle, "neon_last_b");
+            return Color.FromArgb(r, g, b);
+        }
+        /// <summary>
+        /// Sets the last color used.
+        /// </summary>
+        /// <param name="vehicle">The vehicle to set.</param>
+        /// <param name="color">The last color to set.</param>
+        public static void SetLastColor(this Vehicle vehicle, Color color)
+        {
+            Function.Call<bool>(Hash.DECOR_SET_INT, vehicle, "neon_last_r", color.R);
+            Function.Call<bool>(Hash.DECOR_SET_INT, vehicle, "neon_last_g", color.G);
+            Function.Call<bool>(Hash.DECOR_SET_INT, vehicle, "neon_last_b", color.B);
+        }
+        
+        /// <summary>
         /// Gets time the current neon effect started..
         /// </summary>
         /// <param name="vehicle">The vehicle to get.</param>
