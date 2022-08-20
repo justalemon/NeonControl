@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using GTA;
-using GTA.Native;
+using NeonControl.Effects;
 
 namespace NeonControl
 {
@@ -25,6 +26,13 @@ namespace NeonControl
             { "neon_last_r", DecoratorType.Int },
             { "neon_last_g", DecoratorType.Int },
             { "neon_last_b", DecoratorType.Int }
+        };
+        private static readonly List<Effect> effects = new List<Effect>
+        {
+            new On(),
+            new Blink(),
+            new Fade(),
+            new Rainbow()
         };
 
         #endregion
@@ -70,6 +78,34 @@ namespace NeonControl
                 }
 
                 knownVehicles.Add(currentVehicle);
+            }
+            
+            foreach (Vehicle vehicle in knownVehicles)
+            {
+                if (!vehicle.IsEnabled())
+                {
+                    vehicle.Mods.NeonLightsColor = Color.Black;
+                    continue;
+                }
+
+                if (vehicle.Mods.NeonLightsColor != vehicle.GetLastColor())
+                {
+                    vehicle.SetBaseColor(vehicle.Mods.NeonLightsColor);
+                }
+
+                int effectIndex = vehicle.GetEffect();
+
+                if (effectIndex >= effects.Count)
+                {
+                    effectIndex = 0;
+                    vehicle.SetEffect(effectIndex);
+                }
+
+                Effect effect = effects[effectIndex];
+                Color currentColor = effect.Process(vehicle);
+
+                vehicle.Mods.NeonLightsColor = currentColor;
+                vehicle.SetLastColor(currentColor);
             }
         }
 
