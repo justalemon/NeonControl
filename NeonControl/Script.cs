@@ -43,6 +43,7 @@ namespace NeonControl
             new Fade(),
             new Rainbow()
         };
+        private Configuration config = Configuration.Load(); 
 
         #endregion
         
