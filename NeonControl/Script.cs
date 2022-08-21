@@ -247,6 +247,7 @@ namespace NeonControl
                 if (!vehicle.IsEnabled())
                 {
                     vehicle.Mods.NeonLightsColor = Color.Black;
+                    vehicle.SetLastColor(Color.Black);
                     continue;
                 }
 
