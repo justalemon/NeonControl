@@ -59,8 +59,9 @@ namespace NeonControl
             Decorators.Initialize();
             
             Tick += OnInit;
+            Aborted += OnAborted;
         }
-        
+
         #endregion
         
         #region Events
@@ -267,6 +268,15 @@ namespace NeonControl
 
                 vehicle.Mods.NeonLightsColor = currentColor;
                 vehicle.SetLastColor(currentColor);
+            }
+        }
+        private void OnAborted(object sender, EventArgs e)
+        {
+            foreach (Vehicle vehicle in knownVehicles)
+            {
+                Color color = vehicle.GetBaseColor();
+                vehicle.Mods.NeonLightsColor = color;
+                vehicle.SetLastColor(color);
             }
         }
 
