@@ -213,6 +213,7 @@ namespace NeonControl
                         int currentIndex = vehicle.GetEffect();
                         int newIndex = currentIndex >= effects.Count - 1 ? 0 : currentIndex + 1;
                         Effect newEffect = effects[newIndex];
+                        newEffect.Reset(vehicle);
                         vehicle.SetEffect(newIndex);
                         GTA.UI.Screen.ShowSubtitle($"Neon mode was set to ~q~{newEffect.GetType().Name} ({newIndex})~s~!");
                     }
