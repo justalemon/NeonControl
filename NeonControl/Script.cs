@@ -91,7 +91,6 @@ namespace NeonControl
             pool.Process();
             
             Vehicle currentVehicle = Game.Player.Character.CurrentVehicle;
-            Vehicle lastVehicle = Game.Player.Character.LastVehicle;
 
             if (currentVehicle != null && !knownVehicles.Contains(currentVehicle))
             {
