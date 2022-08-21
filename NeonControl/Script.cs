@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
+using System.Reflection;
 using GTA;
 using GTA.Native;
 using LemonUI;
 using NeonControl.Effects;
+using Newtonsoft.Json;
 
 namespace NeonControl
 {
@@ -36,13 +39,14 @@ namespace NeonControl
             { "neon_last_g", DecoratorType.Int },
             { "neon_last_b", DecoratorType.Int }
         };
-        private static readonly List<Effect> effects = new List<Effect>
+        private static readonly List<Type> effectTypes = new List<Type>
         {
-            new On(),
-            new Blink(),
-            new Fade(),
-            new Rainbow()
+            typeof(On),
+            typeof(Blink),
+            typeof(Fade),
+            typeof(Rainbow)
         };
+        private static readonly List<Effect> effects = new List<Effect>();
         private Configuration config = Configuration.Load();
         private int pressedSince = -1;
         private bool clearOnceLifted = false;
@@ -69,6 +73,29 @@ namespace NeonControl
         private void OnInit(object sender, EventArgs e)
         {
             Decorators.Register(decorators);
+
+            string name = Assembly.GetExecutingAssembly().GetName().Name;
+            EffectConverter converter = new EffectConverter();
+            
+            foreach (Type effectType in effectTypes)
+            {
+                string path = $"scripts\\{name}\\{effectType.Name}.json";
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+
+                if (File.Exists(path))
+                {
+                    string existingContents = File.ReadAllText(path);
+                    Effect effect = (Effect)JsonConvert.DeserializeObject(existingContents, effectType, converter);
+                    effects.Add(effect);
+                }
+                else
+                {
+                    Effect effect = (Effect)Activator.CreateInstance(effectType);
+                    string contents = JsonConvert.SerializeObject(effect, converter);
+                    File.WriteAllText(path, contents);
+                    effects.Add(effect);
+                }
+            }
 
             foreach (Effect effect in effects)
             {
