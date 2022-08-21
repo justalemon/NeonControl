@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using GTA;
+using Newtonsoft.Json;
 
 namespace NeonControl.Effects
 {
@@ -13,6 +14,7 @@ namespace NeonControl.Effects
         /// <summary>
         /// If the effect is enabled or not.
         /// </summary>
+        [JsonIgnore]
         public bool Enabled { get; set; }
 
         #endregion
