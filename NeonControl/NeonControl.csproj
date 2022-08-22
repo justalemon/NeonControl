@@ -19,10 +19,10 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="ScriptHookVDotNet3" Version="3.4.0">
+    <PackageReference Include="ScriptHookVDotNet3" Version="3.5.1">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="LemonUI.SHVDN3" Version="1.7.0">
+    <PackageReference Include="LemonUI.SHVDN3" Version="1.8.0">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <Reference Include="System.Windows.Forms" />
