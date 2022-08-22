@@ -183,10 +183,10 @@ namespace NeonControl
                     else if (inputMethod == InputMethod.MouseAndKeyboard)
                     {
                         bool single = Game.IsKeyPressed(config.ControlKeyboardSingle);
-                        bool mode = Game.IsKeyPressed(config.ControlKeyboardMode);
+                        bool effect = Game.IsKeyPressed(config.ControlKeyboardEffect);
                         bool toggle = Game.IsKeyPressed(config.ControlKeyboardToggle);
 
-                        if (clearOnceLifted && !single && !mode && !toggle)
+                        if (clearOnceLifted && !single && !effect && !toggle)
                         {
                             clearOnceLifted = false;
                             pressedSince = -1;
@@ -200,7 +200,7 @@ namespace NeonControl
                                 {
                                     pressedSince = Game.GameTime;
                                 }
-                                else if (mode)
+                                else if (effect)
                                 {
                                     changeEffect = true;
                                     pressedSince = Game.GameTime;
@@ -242,7 +242,7 @@ namespace NeonControl
                         Effect newEffect = effects[newIndex];
                         newEffect.Reset(vehicle);
                         vehicle.SetEffect(newIndex);
-                        GTA.UI.Screen.ShowSubtitle($"Neon mode was set to ~q~{newEffect.GetType().Name} ({newIndex})~s~!");
+                        GTA.UI.Screen.ShowSubtitle($"Neon effect was set to ~q~{newEffect.GetType().Name} ({newIndex})~s~!");
                     }
                 }
 
@@ -291,8 +291,8 @@ namespace NeonControl
                     vehicle.SetEffect(effectIndex);
                 }
 
-                Effect effect = effects[effectIndex];
-                Color currentColor = effect.Process(vehicle);
+                Effect currentEffect = effects[effectIndex];
+                Color currentColor = currentEffect.Process(vehicle);
 
                 vehicle.Mods.NeonLightsColor = currentColor;
                 vehicle.SetLastColor(currentColor);

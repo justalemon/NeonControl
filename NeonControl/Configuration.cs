@@ -24,13 +24,13 @@ namespace NeonControl
         [JsonProperty("control_gamepad_2")]
         public Control ControlGamepad2 { get; set; } = Control.FrontendAccept;
         /// <summary>
-        /// When using a Gamepad: The time you will need to hold both Gamepad controls to change the neon mode in milliseconds. If you hold the buttons under the time, it will toggle neon on and off, but if you hold them over the time, they will change the mode. 
+        /// When using a Gamepad: The time you will need to hold both Gamepad controls to change the neon effect in milliseconds. If you hold the buttons under the time, it will toggle neon on and off, but if you hold them over the time, they will change the effect. 
         /// </summary>
         [JsonProperty("control_gamepad_hold")]
         public int ControlGamepadHold { get; set; } = 150;
 
         /// <summary>
-        /// When using a Keyboard: A shared key that will toggle on and off and change the mode (the same behavior as a Gamepad).
+        /// When using a Keyboard: A shared key that will toggle on and off and change the effect (the same behavior as a Gamepad).
         /// </summary>
         [JsonProperty("control_keyboard_single")]
         public Keys ControlKeyboardSingle { get; set; } = Keys.N;
@@ -40,12 +40,12 @@ namespace NeonControl
         [JsonProperty("control_keyboard_toggle")]
         public Keys ControlKeyboardToggle { get; set; } = Keys.NumPad0;
         /// <summary>
-        /// When using a Keyboard: The dedicated key that will be used to change the neon mode.
+        /// When using a Keyboard: The dedicated key that will be used to change the neon effect.
         /// </summary>
-        [JsonProperty("control_keyboard_mode")]
-        public Keys ControlKeyboardMode { get; set; } = Keys.Decimal;
+        [JsonProperty("control_keyboard_effect")]
+        public Keys ControlKeyboardEffect { get; set; } = Keys.Decimal;
         /// <summary>
-        /// When using a Keyboard: The time you will need press the single key to change the neon mode in milliseconds. If you hold the buttons under the time, it will toggle neon on and off, but if you hold them over the time, they will change the mode.
+        /// When using a Keyboard: The time you will need press the single key to change the neon effect in milliseconds. If you hold the buttons under the time, it will toggle neon on and off, but if you hold them over the time, they will change the effect.
         /// </summary>
         [JsonProperty("control_keyboard_hold")]
         public int ControlKeyboardHold { get; set; } = 150;
@@ -56,12 +56,12 @@ namespace NeonControl
         [JsonProperty("default_effect")]
         public int DefaultEffect { get; set; } = 0;
         /// <summary>
-        /// If the neon mode should be set to default when you turn the neon effects off and then back on.
+        /// If the neon effect should be set to default when you turn the neon effects off and then back on.
         /// </summary>
         [JsonProperty("reset_on_toggle")]
         public bool ResetOnToggle { get; set; } = false;
         /// <summary>
-        /// If the neon mode should be set to default when you turn the engine off.
+        /// If the neon effect should be set to default when you turn the engine off.
         /// </summary>
         [JsonProperty("reset_on_engine_off")]
         public bool ResetOnEngineOff { get; set; } = false;
